@@ -1,0 +1,26 @@
+name: Deploy
+on:
+    repository_dispatch:
+        types: [deploy, destroy]
+
+jobs:
+    Deploy:
+        runs-on: ubuntu-20.04
+
+
+        steps:
+    ###
+    ### Setup
+    ###
+            - uses: actions/checkout@v2
+
+            - name: Print Github event and client payload
+              continue-on-error: true
+              run: |
+                  echo "::group::Env"
+                  env
+                  echo "::endgroup::"
+
+                  echo "::group::Github event"
+                  cat "$GITHUB_EVENT_PATH" | jq -M .
+                  echo "::endgroup::"
